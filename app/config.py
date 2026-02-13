@@ -40,6 +40,7 @@ class Settings:
             "http://localhost:5174",
             "http://127.0.0.1:5173",
             "http://127.0.0.1:5174",
+            "*",  # Allow all origins temporarily for testing
         ]
         self.mpesa_mock = os.getenv("MPESA_MOCK", "true").lower() in {
             "1",
