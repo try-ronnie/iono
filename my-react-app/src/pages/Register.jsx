@@ -46,7 +46,7 @@ export default function Register() {
       })
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
-        setError(data.error || 'Failed to create account')
+        setError(data.detail || data.error || 'Failed to create account')
         setLoading(false)
         return
       }

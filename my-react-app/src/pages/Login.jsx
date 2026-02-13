@@ -46,13 +46,16 @@ export default function Login() {
         const data = await res.json()
         sessionStorage.setItem('token', data.access_token)
         sessionStorage.setItem('user', JSON.stringify(data.user))
-        if (data.user?.role === 'Farmer') navigate('/farmer/home')
-        else navigate('/home')
+        if (data.user?.role === 'farmer' || data.user?.role === 'Farmer') {
+          navigate('/farmer/home')
+        } else {
+          navigate('/home')
+        }
         setLoading(false)
         return
       }
       const data = await res.json().catch(() => ({}))
-      setError(data.error || 'Invalid credentials')
+      setError(data.detail || data.error || 'Invalid credentials')
       setLoading(false)
       return
     } catch {
