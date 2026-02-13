@@ -19,9 +19,14 @@ class Settings:
         else:
             self.database_url = database_url
             
+        # Convert postgres:// or postgresql:// to postgresql+psycopg://
         if self.database_url.startswith("postgres://"):
             self.database_url = self.database_url.replace(
                 "postgres://", "postgresql+psycopg://", 1
+            )
+        elif self.database_url.startswith("postgresql://"):
+            self.database_url = self.database_url.replace(
+                "postgresql://", "postgresql+psycopg://", 1
             )
         self.jwt_secret_key = os.getenv("JWT_SECRET_KEY", "dev-secret-key")
         self.jwt_algorithm = os.getenv("JWT_ALGORITHM", "HS256")
