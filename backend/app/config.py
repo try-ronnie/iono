@@ -3,10 +3,22 @@ import os
 
 class Settings:
     def __init__(self) -> None:
-        self.database_url = os.getenv(
-            "DATABASE_URL",
-            "postgresql+psycopg://postgres:postgres@localhost:5432/farmart",
-        )
+        database_url = os.getenv("DATABASE_URL", "")
+        
+        # Use SQLite for local development if PostgreSQL is not available
+        if not database_url or "localhost" in database_url:
+            # Check if we should use SQLite for development
+            use_sqlite = os.getenv("USE_SQLITE", "true").lower() in {"1", "true", "yes", "on"}
+            if use_sqlite:
+                self.database_url = "sqlite:///./dev.db"
+            else:
+                self.database_url = os.getenv(
+                    "DATABASE_URL",
+                    "postgresql+psycopg://postgres:postgres@localhost:5432/farmart",
+                )
+        else:
+            self.database_url = database_url
+            
         if self.database_url.startswith("postgres://"):
             self.database_url = self.database_url.replace(
                 "postgres://", "postgresql+psycopg://", 1
