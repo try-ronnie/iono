@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: farmart-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: INIT_DB_ON_START
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: DARAJA_BASE_URL
+        value: https://sandbox.safaricom.co.ke
+      - key: DARAJA_CONSUMER_KEY
+        sync: false
+      - key: DARAJA_CONSUMER_SECRET
+        sync: false
+      - key: DARAJA_SHORTCODE
+        sync: false
+      - key: DARAJA_PASSKEY
+        sync: false
+      - key: DARAJA_CALLBACK_URL
+        sync: false
+      - key: DARAJA_TRANSACTION_TYPE
+        value: CustomerPayBillOnline
+      - key: DARAJA_MOCK
+        value: "0"
